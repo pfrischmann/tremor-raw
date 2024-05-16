@@ -2,9 +2,11 @@
 
 import React from "react"
 import * as DrawerPrimitives from "@radix-ui/react-dialog"
+import { RiCloseLine } from "@remixicon/react"
 
 import { cx } from "../../utils/cx"
 import { focusRing } from "../../utils/focusRing"
+import { Button } from "../Button/Button"
 
 const Drawer = (
   props: React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Root>,
@@ -75,7 +77,7 @@ const DrawerContent = React.forwardRef<
           ref={forwardedRef}
           className={cx(
             // base
-            "fixed inset-y-2 right-2 z-50 h-full w-2/3 overflow-y-auto rounded-md border p-6 shadow-lg sm:max-w-lg",
+            "fixed inset-y-2 mx-auto flex w-[95vw] flex-1 flex-col overflow-y-auto rounded-md border p-6 shadow-lg focus:outline-none max-sm:inset-x-2 sm:inset-y-2 sm:right-2 sm:max-w-lg",
             // border color
             "border-gray-200 dark:border-gray-900 ",
             // background color
@@ -94,16 +96,29 @@ const DrawerContent = React.forwardRef<
 
 DrawerContent.displayName = "DrawerContent"
 
-const DialogHeader = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => {
-  return <div className={cx("flex flex-col gap-y-1", className)} {...props} />
-}
+const DrawerHeader = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<"div">
+>(({ children, className, ...props }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className="flex items-start justify-between gap-x-4 border-b border-gray-200 pb-4 dark:border-gray-900"
+      {...props}
+    >
+      <div className={cx("flex flex-col gap-y-1", className)}>{children}</div>
+      <DrawerPrimitives.Close asChild>
+        <Button variant="light" className="aspect-square p-1">
+          <RiCloseLine className="size-4 text-gray-900" />
+        </Button>
+      </DrawerPrimitives.Close>
+    </div>
+  )
+})
 
-DialogHeader.displayName = "DialogHeader"
+DrawerHeader.displayName = "Drawer.Header"
 
-const DialogTitle = React.forwardRef<
+const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitives.Title>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Title>
 >(({ className, ...props }, forwardedRef) => (
@@ -120,9 +135,17 @@ const DialogTitle = React.forwardRef<
   />
 ))
 
-DialogTitle.displayName = "DialogTitle"
+DrawerTitle.displayName = "DrawerTitle"
 
-const DialogDescription = React.forwardRef<
+const DrawerBody = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<"div">
+>(({ className, ...props }, ref) => {
+  return <div ref={ref} className={cx("flex-1 py-4", className)} {...props} />
+})
+DrawerBody.displayName = "Drawer.Body"
+
+const DrawerDescription = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitives.Description>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Description>
 >(({ className, ...props }, forwardedRef) => {
@@ -135,16 +158,16 @@ const DialogDescription = React.forwardRef<
   )
 })
 
-DialogDescription.displayName = "DialogDescription"
+DrawerDescription.displayName = "DrawerDescription"
 
-const DialogFooter = ({
+const DrawerFooter = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
       className={cx(
-        "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+        "flex flex-col-reverse border-t pt-4 sm:flex-row sm:justify-end sm:space-x-2",
         className,
       )}
       {...props}
@@ -152,15 +175,16 @@ const DialogFooter = ({
   )
 }
 
-DialogFooter.displayName = "DialogFooter"
+DrawerFooter.displayName = "DrawerFooter"
 
 export {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
+  DrawerBody,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
   DrawerTrigger,
 }

@@ -2,13 +2,14 @@ import type { Meta, StoryObj } from "@storybook/react"
 
 import { Button } from "../Button/Button"
 import {
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   Drawer,
+  DrawerBody,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
   DrawerTrigger,
 } from "./Drawer"
 
@@ -32,14 +33,17 @@ export const Default: Story = {
             <Button variant="secondary">Open Drawer</Button>
           </DrawerTrigger>
           <DrawerContent className="sm:max-w-lg">
-            <DialogHeader>
-              <DialogTitle>Account Created Successfully</DialogTitle>
-              <DialogDescription className="mt-1 text-sm/7">
+            <DrawerHeader>
+              <DrawerTitle>Account Created Successfully</DrawerTitle>
+              <DrawerDescription className="mt-1 text-sm">
                 Your account has been created successfully. You can now login to
                 your account. For more information, please contact us.
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter className="mt-6">
+              </DrawerDescription>
+            </DrawerHeader>
+            <DrawerBody>
+              This is they body of the drawer, content goes here.
+            </DrawerBody>
+            <DrawerFooter className="mt-6">
               <DrawerClose asChild>
                 <Button
                   className="mt-2 w-full sm:mt-0 sm:w-fit"
@@ -51,7 +55,7 @@ export const Default: Story = {
               <DrawerClose asChild>
                 <Button className="w-full sm:w-fit">Ok, got it!</Button>
               </DrawerClose>
-            </DialogFooter>
+            </DrawerFooter>
           </DrawerContent>
         </Drawer>
       </>
